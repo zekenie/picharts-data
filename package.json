@@ -1,13 +1,12 @@
 {
-  "name": "picharts",
+  "name": "@zekenie/picharts-data",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "seed": "node ./seed/index"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Zeke Nierenberg",
   "dependencies": {
     "mysql": "^2.5.5",
     "sequelize": "^2.0.5"
