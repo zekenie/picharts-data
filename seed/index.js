@@ -31,10 +31,30 @@ m.sequelize.drop()
       })
   })
   .then(function(roles) {
-    console.log(roles)
-    assert('there is one role', roles.length === 1)
+    assert('there are two roles', roles.length === 2)
     var role = roles[0]
     assert('the role has two permissions', role.Permissions.length === 2)
-    console.log(role.toJSON())
   })
-
+  .then(function() {
+    return m.User.create({})
+  })
+  .then(function(u) {
+    return u.authorize('super user').then(function() {
+      return u
+    })
+  })
+  .then(function(u) {
+    return u.can('enroll', 'patient')
+  })
+  .then(function(res) {
+    assert('user can do correct role', res)
+  })
+  .then(function() {
+    return m.User.create({})
+  })
+  .then(function(u) {
+    return u.can('foo', 'bar')
+  })
+  .then(function(res) {
+    assert('shouldnt be able to do a thing you cant do', !res)
+  })

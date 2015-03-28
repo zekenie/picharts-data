@@ -31,6 +31,7 @@ module.exports = function(sequelize, DataTypes) {
     },
     classMethods: {
       associate: function(m) {
+        m.Role.belongsTo(m.User)
         m.Role.belongsToMany(m.Permission, {
           through: 'PermissionRole'
         })
