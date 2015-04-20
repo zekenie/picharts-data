@@ -8,6 +8,7 @@ module.exports = function(sequelize, DataTypes) {
     classMethods: {
       associate: function(m) {
         m.Patient.hasMany(m.Visit)
+        m.Patient.hasMany(m.Reading, { through: m.Visit})
       }
     }
   })
