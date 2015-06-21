@@ -8,6 +8,12 @@ module.exports = function(sequelize, DataTypes) {
         notNull: true
       }
     },
+    email: {
+      type: DataTypes.STRING,
+      validations: {
+        isEmail: true
+      }
+    },
     name: {
       type: DataTypes.STRING,
       validations: {
@@ -35,10 +41,12 @@ module.exports = function(sequelize, DataTypes) {
     },
     instanceMethods: {
       hashPassword: function() {
-        if(!this.changed('password')) return Promise.reject("password not modified. can't salt and hash")
+        if(!this.isNewRecord && !this.changed('password')) return Promise.reject("password not modified. can't salt and hash")
+        var u = this
         return new Promise(function(resolve, reject) {
           bcrypt.genSalt(10, function(err, salt) {
             if(err) return reject(err)
+            console.log(u, salt)
             bcrypt.hash(u.password, salt, function(err, hash) {
               if(err) return reject(err)
               u.password = hash
